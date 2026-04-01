@@ -43,12 +43,24 @@ function getTargetChatId() {
 
 function startDailyScheduler(sock) {
   const lastSent = new Map();
+  const timeFormatter = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+  const dateFormatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
 
   setInterval(async () => {
     try {
       const now = new Date();
-      const hhmm = now.toTimeString().slice(0, 5); // "HH:MM" format
-      const today = now.toISOString().slice(0, 10); // "YYYY-MM-DD"
+      const hhmm = timeFormatter.format(now); // "HH:MM" in Asia/Kolkata
+      const today = dateFormatter.format(now); // "YYYY-MM-DD" in Asia/Kolkata
 
       const targetChatId = getTargetChatId();
       if (!targetChatId) return;
