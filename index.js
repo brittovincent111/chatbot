@@ -16,8 +16,10 @@ const REPLY_DELAY_MS = Number(process.env.REPLY_DELAY_MS || 15000);
 
 const lidToJid = new Map();
 const SCHEDULED_MESSAGES = [
-  { time: "20:13", text: "da evidya" },
-  { time: "21:30", text: "da evidya" },
+  { time: "12:00", text: "da evidya" },
+  { time: "12:10", text: "da evidya" },
+  { time: "12:10", text: "da evidya" },
+
   { time: "21:30", text: "nee epo bangalore ano" },
 ];
 
