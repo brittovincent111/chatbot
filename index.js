@@ -18,7 +18,7 @@ const lidToJid = new Map();
 const SCHEDULED_MESSAGES = [
   { time: "12:00", text: "da evidya" },
   { time: "12:10", text: "da evidya" },
-  { time: "13:30", text: "da evidya" },
+  { time: "13:20", text: "da evidya" },
 
   { time: "21:30", text: "nee epo bangalore ano" },
 ];
@@ -43,34 +43,25 @@ function getTargetChatId() {
 
 function startDailyScheduler(sock) {
   const lastSent = new Map();
-  const timeFormatter = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Asia/Kolkata",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
 
   setInterval(async () => {
     try {
       const now = new Date();
-      const hhmm = timeFormatter.format(now);
-      const today = new Intl.DateTimeFormat("en-CA", {
-        timeZone: "Asia/Kolkata",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      }).format(now);
-      const targetChatId = getTargetChatId();
+      const hhmm = now.toTimeString().slice(0, 5); // "HH:MM" format
+      const today = now.toISOString().slice(0, 10); // "YYYY-MM-DD"
 
+      const targetChatId = getTargetChatId();
       if (!targetChatId) return;
 
       for (const item of SCHEDULED_MESSAGES) {
         if (item.time !== hhmm) continue;
+
         const key = `${item.time}-${today}`;
         if (lastSent.get(item.time) === key) continue;
 
         await sock.sendMessage(targetChatId, { text: item.text });
         lastSent.set(item.time, key);
+
         if (DEBUG_MESSAGES) {
           console.log("Scheduled message sent:", item.time, item.text);
         }
@@ -78,7 +69,7 @@ function startDailyScheduler(sock) {
     } catch (err) {
       console.error("Scheduler error", err);
     }
-  }, 20000);
+  }, 20000); // check every 20 seconds
 }
 
 function extractText(message) {
