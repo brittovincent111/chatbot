@@ -1,7 +1,21 @@
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 
+let baileysImport;
+async function loadBaileys() {
+  if (!baileysImport) {
+    baileysImport = import("@whiskeysockets/baileys");
+  }
+  return baileysImport;
+}
+
 async function startBot() {
+  const {
+    default: makeWASocket,
+    useMultiFileAuthState,
+    DisconnectReason,
+    fetchLatestBaileysVersion,
+  } = await loadBaileys();
+
   const { state, saveCreds } = await useMultiFileAuthState("auth");
   const { version } = await fetchLatestBaileysVersion();
 

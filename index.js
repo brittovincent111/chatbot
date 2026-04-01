@@ -16,10 +16,9 @@ const REPLY_DELAY_MS = Number(process.env.REPLY_DELAY_MS || 15000);
 
 const lidToJid = new Map();
 const SCHEDULED_MESSAGES = [
-  { time: "18:20", text: "da evidya" },
-  { time: "21:00", text: "da ariyo" },
-  { time: "21:30", text: "nee epo avidya" },
-  { time: "21:31", text: "nattil indo epo" },
+  { time: "20:13", text: "da evidya" },
+  { time: "21:30", text: "da evidya" },
+  { time: "21:30", text: "nee epo bangalore ano" },
 ];
 
 function getSenderJid(msg) {
@@ -27,7 +26,8 @@ function getSenderJid(msg) {
   const participant = msg?.key?.participant || msg?.participant || "";
 
   if (remote.endsWith("@lid") && participant) return participant;
-  if (remote.endsWith("@lid") && lidToJid.has(remote)) return lidToJid.get(remote);
+  if (remote.endsWith("@lid") && lidToJid.has(remote))
+    return lidToJid.get(remote);
   return remote;
 }
 
@@ -83,7 +83,8 @@ function extractText(message) {
   if (!message) return "";
 
   if (message.conversation) return message.conversation;
-  if (message.extendedTextMessage?.text) return message.extendedTextMessage.text;
+  if (message.extendedTextMessage?.text)
+    return message.extendedTextMessage.text;
   if (message.imageMessage?.caption) return message.imageMessage.caption;
   if (message.videoMessage?.caption) return message.videoMessage.caption;
 
@@ -156,7 +157,8 @@ async function run() {
       const isTarget =
         senderJid === TARGET_JID ||
         (TARGET_LID && (senderJid === TARGET_LID || chatJid === TARGET_LID)) ||
-        (senderJid.endsWith("@lid") && lidToJid.get(senderJid) === TARGET_JID) ||
+        (senderJid.endsWith("@lid") &&
+          lidToJid.get(senderJid) === TARGET_JID) ||
         (chatJid.endsWith("@lid") && lidToJid.get(chatJid) === TARGET_JID);
 
       if (!isTarget) return;
