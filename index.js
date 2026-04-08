@@ -19,9 +19,9 @@ const SCHEDULED_MESSAGES = [
   { time: "12:00", text: "da evidya" },
   { time: "12:10", text: "da evidya" },
   { time: "13:30", text: "da evidya" },
-  { time: "17:52", text: "da evidya" },
-  { time: "20:00", text: "da evidya" },
-  { time: "20:00", text: "nee epo bangalore ano" },
+  { time: "15:12", text: "da evidya" },
+  { time: "21:05", text: "da evidya" },
+  { time: "21:06", text: "nee epo bangalore ano" },
 ];
 
 function getSenderJid(msg) {
